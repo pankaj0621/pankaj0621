@@ -47,6 +47,8 @@
   --hero-drag-speed: .006;
   --hero-pointer-ease: .085;
   --card-tilt-max: 4;
+  --card-glare-radius: 300px;
+  --card-glare-strength: .12;
   --mono: 'JetBrains Mono', ui-monospace, SFMono-Regular, monospace;
   --display: 'Fraunces', Georgia, serif;
   --sans: 'Geist', ui-sans-serif, system-ui, sans-serif;
@@ -668,13 +670,14 @@ main > .section::before {
   top: 0;
   right: 0;
   border-radius: inherit;
-  background: radial-gradient(360px circle at var(--glare-x, 50%) var(--glare-y, 50%), rgba(var(--lilac-highlight-rgb), .16), transparent 72%);
+  background: radial-gradient(var(--card-glare-radius) circle at var(--glare-x, 50%) var(--glare-y, -20%), rgba(var(--lilac-highlight-rgb), var(--card-glare-strength)), transparent 60%);
   filter: none;
   opacity: var(--glare-opacity, 0);
   transition: opacity .25s ease;
   pointer-events: none;
   z-index: 1;
 }
+.project-card.case:hover::after, .project-card.case:focus-within::after { opacity: 1; }
 .case-visual, .case-body { position: relative; z-index: 2; }
 .case-visual { border-color: var(--glass-border); background-color: rgba(var(--white-rgb), .035); }
 .case-title { color: var(--text); }
