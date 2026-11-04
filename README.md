@@ -50,10 +50,6 @@
 <img src="assets/title-commits.svg" width="100%" alt="05 Commit log — A year of building.">
 <img src="assets/contribution-snake.svg" width="100%" alt="Animated snake eating my real public GitHub contributions over the past year, with totals, active days, longest streak and busiest day. Re-rendered daily.">
 
-<p align="center">
-  <img src="https://github-readme-stats.vercel.app/api?username=pankaj0621&show_icons=true&hide_rank=true&hide_border=true&border_radius=16&bg_color=0D1117&title_color=22D3EE&text_color=9AA8B7&icon_color=A78BFA&custom_title=GitHub%20at%20a%20glance" width="400" alt="GitHub stats for pankaj0621: stars, commits, pull requests and issues">
-</p>
-
 <img src="assets/title-certifications.svg" width="100%" alt="06 Certifications — Three credentials, earned.">
 <img src="assets/certifications.svg" width="100%" alt="Certifications: Web Design and Development in Hindi, Skill India Digital Hub (NSDC), 2026. HTML and CSS Training, Excelrs with Lawazia Tech, 2025. Career Guidance Webinar Participation, Skill Dunia Edutech, 2025.">
 

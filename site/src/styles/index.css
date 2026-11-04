@@ -572,3 +572,9 @@ section[id] { scroll-margin-top: 88px; }
   .hero-orbits ellipse { animation: none; }
   .hero-ticker { animation: none; }
 }
+
+/* Arch-shaped portrait frame */
+.photo-frame { border-radius: 999px 999px 22px 22px; }
+.photo-frame img { border-radius: 999px 999px 18px 18px; }
+.photo-frame::before { border-radius: 999px 999px 22px 22px; }
+.photo-corner { display: none; }
