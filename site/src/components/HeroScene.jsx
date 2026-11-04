@@ -1,7 +1,7 @@
 import { useEffect, useRef, useState } from "react";
 import * as THREE from "three";
 
-export default function HeroScene() {
+export default function HeroScene({ interactionRef }) {
   const hostRef = useRef(null);
   const [ready, setReady] = useState(false);
 
@@ -21,7 +21,7 @@ export default function HeroScene() {
 
     try {
       renderer = new THREE.WebGLRenderer({ alpha: true, antialias: true, powerPreference: "low-power" });
-      renderer.setPixelRatio(Math.min(window.devicePixelRatio || 1, 1.5));
+      renderer.setPixelRatio(Math.min(window.devicePixelRatio || 1, 2));
       renderer.setClearColor(0x0d1117, 0);
       host.appendChild(renderer.domElement);
       setReady(true);
@@ -76,17 +76,28 @@ export default function HeroScene() {
       resizeObserver.observe(host);
       resize();
 
+      let previousTime = performance.now();
       const render = () => {
         if (!isVisible) return;
-        orb.rotation.y += 0.0018;
-        orb.rotation.x = Math.sin(performance.now() * 0.00018) * 0.08;
-        stars.rotation.y -= 0.00018;
+        const time = performance.now();
+        const delta = Math.min((time - previousTime) / 1000, 0.05);
+        previousTime = time;
+        const interaction = interactionRef?.current;
+        const pointerX = interaction?.pointerX || 0;
+        const pointerY = interaction?.pointerY || 0;
+        const dragX = interaction?.dragRotationX || 0;
+        const dragY = interaction?.dragRotationY || 0;
+        const idleX = Math.sin(time * 0.00018) * 0.018;
+        orb.rotation.y = THREE.MathUtils.damp(orb.rotation.y, dragY + pointerX * 0.16, 7, delta);
+        orb.rotation.x = THREE.MathUtils.damp(orb.rotation.x, dragX - pointerY * 0.12 + idleX, 7, delta);
+        stars.rotation.y -= delta * 0.011;
         renderer.render(scene, camera);
         frame = window.requestAnimationFrame(render);
       };
       const onVisibility = () => {
         isVisible = !document.hidden;
         if (isVisible) {
+          previousTime = performance.now();
           window.cancelAnimationFrame(frame);
           frame = window.requestAnimationFrame(render);
         } else {

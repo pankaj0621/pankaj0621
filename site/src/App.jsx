@@ -8,6 +8,7 @@ import SkillsSection from "./components/sections/SkillsSection.jsx";
 import RecognitionSection from "./components/sections/RecognitionSection.jsx";
 import ActivitySection from "./components/sections/ActivitySection.jsx";
 import ContactSection from "./components/sections/ContactSection.jsx";
+import CustomCursor from "./components/CustomCursor.jsx";
 import { useScrollReveal } from "./hooks/useScrollReveal.js";
 
 export default function App() {
@@ -37,6 +38,7 @@ export default function App() {
   return (
     <>
       <a className="skip-link" href="#main">Skip to content</a>
+      <CustomCursor />
       <div className="scroll-progress" aria-hidden="true"><span /></div>
       <SiteHeader />
       <main id="main" tabIndex="-1">

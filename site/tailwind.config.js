@@ -4,11 +4,15 @@ export default {
   theme: {
     extend: {
       colors: {
-        ink: "#0D1117",
-        violet: "#8B5CF6",
-        lilac: "#A78BFA",
-        cyan: "#22D3EE",
-        paper: "#F8FAFC",
+        ink: "var(--ink)",
+        background: "var(--bg)",
+        surface: "var(--surface)",
+        "surface-glass": "var(--surface-glass)",
+        violet: "var(--purple)",
+        lilac: "var(--lilac)",
+        cyan: "var(--cyan)",
+        paper: "var(--text)",
+        muted: "var(--muted)",
       },
     },
   },

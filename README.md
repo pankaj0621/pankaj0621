@@ -1,8 +1,9 @@
-<a href="https://github.com/pankaj0621">
+<a href="https://pankaj0621.github.io/pankaj0621/">
   <img src="assets/pankaj-hero.svg" width="100%" alt="Pankaj Kumar (portrait) — Full-Stack Developer, Frontend Developer, Freelancer and Software Engineer in the making. Turning curiosity into useful products.">
 </a>
 
 <p align="center">
+  <a href="https://pankaj0621.github.io/pankaj0621/"><img src="https://img.shields.io/badge/Live_Portfolio-Visit_site-8B5CF6?style=for-the-badge&labelColor=0D1117&logoColor=F8FAFC" alt="Open Pankaj Kumar's live portfolio"></a>
   <a href="https://github.com/pankaj0621"><img src="https://img.shields.io/badge/GitHub-pankaj0621-8B5CF6?style=for-the-badge&labelColor=0D1117&logoColor=F8FAFC&logo=github" alt="GitHub profile pankaj0621"></a>
   <a href="https://www.linkedin.com/in/pankaj-kumar06"><img src="https://img.shields.io/badge/LinkedIn-pankaj--kumar06-8B5CF6?style=for-the-badge&labelColor=0D1117&logoColor=F8FAFC&logo=data:image/svg%2bxml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHZpZXdCb3g9IjAgMCAyNCAyNCI%2bPHBhdGggZmlsbD0iI0Y4RkFGQyIgZD0iTTIwLjQ1IDIwLjQ1aC0zLjU2di01LjU3YzAtMS4zMy0uMDItMy4wNC0xLjg1LTMuMDQtMS44NiAwLTIuMTQgMS40NS0yLjE0IDIuOTR2NS42N0g5LjM1VjloMy40MXYxLjU2aC4wNWMuNDgtLjkgMS42NC0xLjg1IDMuMzctMS44NSAzLjYgMCA0LjI3IDIuMzcgNC4yNyA1LjQ2djYuMjhaTTUuMzQgNy40M2EyLjA2IDIuMDYgMCAxIDEgMC00LjEzIDIuMDYgMi4wNiAwIDAgMSAwIDQuMTNaTTcuMTIgMjAuNDVIMy41NlY5aDMuNTZ2MTEuNDVaTTIyLjIyIDBIMS43N0MuNzkgMCAwIC43NyAwIDEuNzN2MjAuNTRDMCAyMy4yMy43OSAyNCAxLjc3IDI0aDIwLjQ1Yy45OCAwIDEuNzgtLjc3IDEuNzgtMS43M1YxLjczQzI0IC43NyAyMy4yIDAgMjIuMjIgMFoiLz48L3N2Zz4=" alt="LinkedIn profile pankaj-kumar06"></a>
   <a href="mailto:pankajthakur62175@gmail.com"><img src="https://img.shields.io/badge/Email-pankajthakur62175@gmail.com-8B5CF6?style=for-the-badge&labelColor=0D1117&logoColor=F8FAFC&logo=gmail" alt="Email pankajthakur62175@gmail.com"></a>
