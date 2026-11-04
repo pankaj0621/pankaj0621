@@ -13,8 +13,10 @@ export default function HeroScene({ interactionRef }) {
 
     let renderer;
     let frame = 0;
-    let isVisible = !document.hidden;
+    let isDocumentVisible = !document.hidden;
+    let isInViewport = false;
     let resizeObserver;
+    let intersectionObserver;
     const scene = new THREE.Scene();
     const camera = new THREE.PerspectiveCamera(38, 1, 0.1, 100);
     camera.position.z = 8;
@@ -78,7 +80,8 @@ export default function HeroScene({ interactionRef }) {
 
       let previousTime = performance.now();
       const render = () => {
-        if (!isVisible) return;
+        frame = 0;
+        if (!isDocumentVisible || !isInViewport) return;
         const time = performance.now();
         const delta = Math.min((time - previousTime) / 1000, 0.05);
         previousTime = time;
@@ -94,21 +97,37 @@ export default function HeroScene({ interactionRef }) {
         renderer.render(scene, camera);
         frame = window.requestAnimationFrame(render);
       };
-      const onVisibility = () => {
-        isVisible = !document.hidden;
-        if (isVisible) {
-          previousTime = performance.now();
+      const syncRenderLoop = () => {
+        if (isDocumentVisible && isInViewport) {
+          if (!frame) {
+            previousTime = performance.now();
+            frame = window.requestAnimationFrame(render);
+          }
+        } else if (frame) {
           window.cancelAnimationFrame(frame);
-          frame = window.requestAnimationFrame(render);
-        } else {
-          window.cancelAnimationFrame(frame);
+          frame = 0;
         }
       };
+      const onVisibility = () => {
+        isDocumentVisible = !document.hidden;
+        syncRenderLoop();
+      };
+
+      if ("IntersectionObserver" in window) {
+        intersectionObserver = new IntersectionObserver(([entry]) => {
+          isInViewport = entry.isIntersecting;
+          syncRenderLoop();
+        }, { rootMargin: "100px 0px" });
+        intersectionObserver.observe(host);
+      } else {
+        isInViewport = true;
+      }
       document.addEventListener("visibilitychange", onVisibility);
-      if (isVisible) frame = window.requestAnimationFrame(render);
+      syncRenderLoop();
 
       return () => {
         document.removeEventListener("visibilitychange", onVisibility);
+        intersectionObserver?.disconnect();
         window.cancelAnimationFrame(frame);
         resizeObserver?.disconnect();
         scene.traverse((object) => {

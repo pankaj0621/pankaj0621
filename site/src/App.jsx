@@ -20,10 +20,15 @@ export default function App() {
   }, []);
 
   useEffect(() => {
+    let progressFrame = 0;
     const updateProgress = () => {
-      const scrollable = document.documentElement.scrollHeight - window.innerHeight;
-      const progress = scrollable > 0 ? window.scrollY / scrollable : 0;
-      document.documentElement.style.setProperty("--page-progress", String(progress));
+      if (progressFrame) return;
+      progressFrame = window.requestAnimationFrame(() => {
+        progressFrame = 0;
+        const scrollable = document.documentElement.scrollHeight - window.innerHeight;
+        const progress = scrollable > 0 ? window.scrollY / scrollable : 0;
+        document.documentElement.style.setProperty("--page-progress", String(progress));
+      });
     };
     updateProgress();
     window.addEventListener("scroll", updateProgress, { passive: true });
@@ -31,6 +36,7 @@ export default function App() {
     return () => {
       window.removeEventListener("scroll", updateProgress);
       window.removeEventListener("resize", updateProgress);
+      window.cancelAnimationFrame(progressFrame);
       document.documentElement.style.removeProperty("--page-progress");
     };
   }, []);

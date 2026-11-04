@@ -55,6 +55,7 @@ export function useHeroInteraction(visualRef) {
       const bounds = interactionRegion.getBoundingClientRect();
       pointerTargetX = clamp(((event.clientX - bounds.left) / bounds.width) * 2 - 1, -1, 1);
       pointerTargetY = clamp(((event.clientY - bounds.top) / bounds.height) * 2 - 1, -1, 1);
+      requestTick();
 
       if (dragPointerId !== event.pointerId) return;
 
@@ -77,6 +78,7 @@ export function useHeroInteraction(visualRef) {
       state.dragVelocityX = 0;
       state.dragVelocityY = 0;
       visual.setPointerCapture(event.pointerId);
+      requestTick();
     };
 
     const stopDragging = (event) => {
@@ -84,12 +86,14 @@ export function useHeroInteraction(visualRef) {
       dragPointerId = null;
       state.dragging = false;
       if (visual.hasPointerCapture(event.pointerId)) visual.releasePointerCapture(event.pointerId);
+      requestTick();
     };
 
     const onPointerLeave = () => {
       if (dragPointerId === null) {
         pointerTargetX = 0;
         pointerTargetY = 0;
+        requestTick();
       }
     };
 
@@ -99,26 +103,57 @@ export function useHeroInteraction(visualRef) {
         return;
       }
 
-      state.pointerX += (pointerTargetX - state.pointerX) * pointerEase;
-      state.pointerY += (pointerTargetY - state.pointerY) * pointerEase;
+      let isMoving = false;
+      const pointerDeltaX = pointerTargetX - state.pointerX;
+      const pointerDeltaY = pointerTargetY - state.pointerY;
+      if (Math.abs(pointerDeltaX) > 0.001) {
+        state.pointerX += pointerDeltaX * pointerEase;
+        isMoving = true;
+      } else {
+        state.pointerX = pointerTargetX;
+      }
+      if (Math.abs(pointerDeltaY) > 0.001) {
+        state.pointerY += pointerDeltaY * pointerEase;
+        isMoving = true;
+      } else {
+        state.pointerY = pointerTargetY;
+      }
 
       if (!state.dragging) {
-        state.dragRotationX = clamp(state.dragRotationX + state.dragVelocityX, -0.6, 0.6) * 0.975;
-        state.dragRotationY = clamp(state.dragRotationY + state.dragVelocityY, -0.7, 0.7) * 0.975;
-        state.dragVelocityX *= 0.9;
-        state.dragVelocityY *= 0.9;
+        if (Math.abs(state.dragVelocityX) > 0.001 || Math.abs(state.dragRotationX) > 0.001) {
+          state.dragRotationX = clamp(state.dragRotationX + state.dragVelocityX, -0.6, 0.6) * 0.975;
+          state.dragVelocityX *= 0.9;
+          isMoving = true;
+        }
+        if (Math.abs(state.dragVelocityY) > 0.001 || Math.abs(state.dragRotationY) > 0.001) {
+          state.dragRotationY = clamp(state.dragRotationY + state.dragVelocityY, -0.7, 0.7) * 0.975;
+          state.dragVelocityY *= 0.9;
+          isMoving = true;
+        }
+        if (Math.abs(state.dragVelocityX) <= 0.001 && Math.abs(state.dragRotationX) <= 0.001) {
+          state.dragVelocityX = 0;
+          state.dragRotationX = 0;
+        }
+        if (Math.abs(state.dragVelocityY) <= 0.001 && Math.abs(state.dragRotationY) <= 0.001) {
+          state.dragVelocityY = 0;
+          state.dragRotationY = 0;
+        }
       }
 
       setVisualMotion();
-      animationFrame = window.requestAnimationFrame(tick);
+      animationFrame = isMoving ? window.requestAnimationFrame(tick) : 0;
     };
+
+    function requestTick() {
+      if (!document.hidden && !animationFrame) animationFrame = window.requestAnimationFrame(tick);
+    }
 
     const onVisibilityChange = () => {
       if (document.hidden) {
         window.cancelAnimationFrame(animationFrame);
         animationFrame = 0;
-      } else if (!animationFrame) {
-        animationFrame = window.requestAnimationFrame(tick);
+      } else {
+        requestTick();
       }
     };
 
@@ -129,7 +164,6 @@ export function useHeroInteraction(visualRef) {
     interactionRegion.addEventListener("lostpointercapture", stopDragging);
     interactionRegion.addEventListener("pointerleave", onPointerLeave);
     document.addEventListener("visibilitychange", onVisibilityChange);
-    if (!document.hidden) animationFrame = window.requestAnimationFrame(tick);
 
     return () => {
       interactionRegion.removeEventListener("pointermove", onPointerMove);
